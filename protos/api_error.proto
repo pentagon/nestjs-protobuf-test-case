@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+enum ApiErrorCode {
+  UNKNOWN = 0;
+  AUTH_INVALID_IDENTIFIER = 1;
+  AUTH_INVALID_SECRET = 2;
+  AUTH_INVALID_USER = 3;
+}
+
+message ApiError {
+  string key = 1;
+  string message = 2;
+  ApiErrorCode code = 3;
+}
