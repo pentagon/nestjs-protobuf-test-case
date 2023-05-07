@@ -9,7 +9,7 @@ const options: DataSourceOptions & SeederOptions = {
   password: dbConfig.password,
   database: dbConfig.database,
   migrations: [__dirname + '/../db/migrations/*.ts'],
-  entities: [__dirname + '/../**/*.entity.ts'],
+  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   seeds: [__dirname + '/../db/seeds/*.ts'],
   // factories: ['src/database/factories/**/*{.ts,.js}']
 };

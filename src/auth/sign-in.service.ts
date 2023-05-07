@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { SignIn as SignInRequest } from '../protos/auth/request/sign_in_pb';
 import { SignIn as SignInResponse } from '../protos/auth/response/sign_in_pb';
 import { BaseService } from '../base.service';
@@ -6,7 +6,7 @@ import { isEmail, isNotEmpty } from 'class-validator';
 import { ServiceValidator } from '../api.validation';
 import { ApiErrorCode } from '../protos/api_error_pb';
 import { User } from './user.entity';
-import { Repository } from 'typeorm';
+import { dataSource } from '../datasource';
 
 @Injectable()
 export class SignInService extends BaseService<SignInRequest, SignInResponse> {
@@ -34,9 +34,6 @@ export class SignInService extends BaseService<SignInRequest, SignInResponse> {
     },
   ];
 
-  @Inject('USER_REPOSITORY')
-  private readonly userRepository: Repository<User>;
-
   protected execute(): Promise<SignInResponse> {
     const user = this.getUser();
     if (!user) {
@@ -47,7 +44,7 @@ export class SignInService extends BaseService<SignInRequest, SignInResponse> {
   }
 
   private getUser(): Promise<User> {
-    return this.userRepository.findOne({
+    return dataSource.getRepository(User).findOne({
       where: {
         email: this.proto.identifier,
       },

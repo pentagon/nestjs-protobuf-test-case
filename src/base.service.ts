@@ -5,13 +5,11 @@ import {
   ServiceValidationError,
   ServiceExecutionError,
 } from './api.validation';
-import { ApiErrorCode } from "./protos/api_error_pb";
+import { ApiErrorCode } from './protos/api_error_pb';
 
 export class BaseService<T extends Message<T>, R extends Message<R>> {
   protected readonly proto: T;
-
   protected readonly validators: ServiceValidator<T>[] = [];
-
   protected readonly errors: ApiError[] = [];
 
   constructor(proto: T) {
